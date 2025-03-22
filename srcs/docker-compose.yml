@@ -1,0 +1,58 @@
+version: '3.7'
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - frontend
+    expose:
+      - "3306"
+
+  wordpress:
+    build:  ./requirements/wordpress
+    container_name: wordpress
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - frontend
+    expose:
+      - "9000"
+    depends_on:
+      - mariadb
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./srcs/requirements/nginx/conf:/etc/nginx/conf.d
+      - wordpress_data:/var/www/html
+    networks:
+      - frontend
+    depends_on:
+      - wordpress
+
+volumes:
+  mariadb_data:
+  wordpress_data:
+
+networks:
+  frontend:
+    driver: bridge
