@@ -11,6 +11,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_INITDB_SKIP_TZINFO: 'yes'
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -18,42 +19,42 @@ services:
     expose:
       - "3306"
 
-  wordpress:
-    build:  ./requirements/wordpress
-    container_name: wordpress
-    restart: always
-    environment:
-      DB_HOST: ${DB_HOST}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - wordpress_data:/var/www/html
-    networks:
-      - frontend
-    expose:
-      - "9000"
-    depends_on:
-      - mariadb
+  # wordpress:
+  #   build:  ./requirements/wordpress
+  #   container_name: wordpress
+  #   restart: always
+  #   environment:
+  #     DB_HOST: ${DB_HOST}
+  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   volumes:
+  #     - wordpress_data:/var/www/html/wordpress
+  #   networks:
+  #     - frontend
+  #   expose:
+  #     - "9000"
+  #   depends_on:
+  #     - mariadb
 
-  nginx:
-    build: ./requirements/nginx
-    container_name: nginx
-    restart: always
-    environment:
-      DOMAIN_NAME: ${DOMAIN_NAME}
-    volumes:
-      - wordpress_data:/var/www/html
-    ports:
-      - "80:80"
-    networks:
-      - frontend
-    depends_on:
-      - wordpress
+  # nginx:
+  #   build: ./requirements/nginx
+  #   container_name: nginx
+  #   restart: always
+  #   environment:
+  #     DOMAIN_NAME: ${DOMAIN_NAME}
+  #   volumes:
+  #     - wordpress_data:/var/www/html/wordpress
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - frontend
+  #   depends_on:
+  #     - wordpress
 
 volumes:
   mariadb_data:
-  wordpress_data:
+  # wordpress_data:
 
 networks:
   frontend:

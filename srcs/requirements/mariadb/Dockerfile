@@ -1,10 +1,15 @@
 FROM	debian:bullseye-slim
 
-RUN	apt-get update && apt-get install -y mariadb-server && rm -rf /var/lib/apt/lists/*
-RUN	mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+RUN		apt-get update && apt-get install -y mariadb-server && rm -rf /var/lib/apt/lists/*
 
+RUN		mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
 COPY	./conf/init.sql /docker-entrypoint-initdb.d/init.sql
+RUN		chown -R mysql:mysql /docker-entrypoint-initdb.d
+
+# Copy the startup script
+COPY ./tools/startup.sh /startup.sh
+RUN chmod +x /startup.sh
 
 EXPOSE	3306
 
-CMD	["mysqld"]
+CMD ["/startup.sh"]
