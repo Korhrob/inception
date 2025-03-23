@@ -6,11 +6,11 @@ RUN		mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
 
 COPY	./conf/inception.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
+COPY	./tools/mariadb-entrypoint.sh /usr/local/bin/mariadb-entrypoint.sh
+RUN		chmod +x /usr/local/bin/mariadb-entrypoint.sh
 
-# Copy the startup script
-COPY ./tools/startup.sh /startup.sh
-RUN chmod +x /startup.sh
+RUN		mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 
 EXPOSE	3306
 
-CMD ["/startup.sh"]
+ENTRYPOINT ["mariadb-entrypoint.sh"]

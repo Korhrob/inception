@@ -24,17 +24,14 @@ re: down
 
 re-wordpress:
 	@echo "Rebuilding Wordpress container..."
-	docker-compose -f $(DOCKER_COMPOSE) down -v wordpress
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build wordpress
 
 re-mariadb:
 	@echo "Rebuilding MariaDB container..."
-	docker-compose -f $(DOCKER_COMPOSE) down -v mariadb
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build mariadb
 
 re-nginx:
 	@echo "Rebuildin NGINX container..."
-	docker-compose -f $(DOCKER_COMPOSE) down -v nginx
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build nginx
 
 prune: down
