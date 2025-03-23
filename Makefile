@@ -1,5 +1,5 @@
 PROJECT_NAME	=	inception
-SERVICES	=	mariadb #nginx wordpress
+SERVICES	=	mariadb nginx wordpress
 DOCKER_COMPOSE	=	srcs/docker-compose.yml
 
 .PHONY: build up down restart nginx logs ps
@@ -22,24 +22,19 @@ re: down
 	@echo "Stating containers with --build..."
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build $(SERVICES)
 
-wordpress: down
+re-wordpress:
 	@echo "Rebuilding Wordpress container..."
-	docker-compose -f $(DOCKER_COMPOSE) build --build wordpress
+	docker-compose -f $(DOCKER_COMPOSE) down -v wordpress
+	docker-compose -f $(DOCKER_COMPOSE) up -d --build wordpress
 
-mariadb: down
+re-mariadb:
 	@echo "Rebuilding MariaDB container..."
-	docker-compose -f $(DOCKER_COMPOSE) build --build mariadb
-
-nginx: down
-	@echo "Rebuildin NGINX container..."
-	docker-compose -f $(DOCKER_COMPOSE) build --build nginx
-
-run-mariadb: down
-	@echo "Restarting MariaDB container..."
+	docker-compose -f $(DOCKER_COMPOSE) down -v mariadb
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build mariadb
 
-run-nginx: down
-	@echo "Restarting NGINX container..."
+re-nginx:
+	@echo "Rebuildin NGINX container..."
+	docker-compose -f $(DOCKER_COMPOSE) down -v nginx
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build nginx
 
 prune: down
