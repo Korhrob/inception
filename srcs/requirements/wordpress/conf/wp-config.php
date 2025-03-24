@@ -70,7 +70,12 @@ $table_prefix  = 'wp_';
  * For information on other constants that can be used for debugging,
  * visit the WordPress Codex.
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
+@ini_set('display_errors', 'php://stderr');
+
 
 /* That's all, stop editing! Happy publishing. */
 
