@@ -24,12 +24,18 @@ RUN		chown www-data:www-data /var/www/html/wordpress/wp-config.php
 EXPOSE	9000
 
 RUN		mkdir -p /run/php && chown -R www-data:www-data /run/php
-RUN		sed -i 's|^listen =.*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf
-RUN		touch /var/log/php_errors.log && chown www-data:www-data /var/log/php_errors.log
+COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+RUN		chown www-data:www-data /etc/php/7.4/fpm/pool.d/www.conf
+
+COPY	./conf/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
+RUN		chown www-data:www-data /etc/php/7.4/fpm/php-fpm.conf
+
+# Enable error logging and direct it to stderr
+RUN sed -i 's/^;log_errors = Off/log_errors = On/' /etc/php/7.4/fpm/php.ini \
+    && sed -i 's|^;error_log = php_errors.log|error_log = /dev/stderr|' /etc/php/7.4/fpm/php.ini
 
 COPY	./tools/wp-entrypoint.sh /usr/local/bin/wp-entrypoint.sh
 RUN		chmod +x /usr/local/bin/wp-entrypoint.sh
 
 WORKDIR	/var/www/html
 ENTRYPOINT	["wp-entrypoint.sh"]
-#CMD	["php-fpm7.4", "-F"]

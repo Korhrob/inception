@@ -8,12 +8,12 @@ build:
 	@echo "Building Docker images..."
 	docker-compose -f $(DOCKER_COMPOSE) build
 
-build-force:
+force:
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
 up:
 	@echo "Starting containers..."
-	docker-compose -f $(DOCKER_COMPOSE) up -d $(SERVICES)
+	docker-compose -f $(DOCKER_COMPOSE) up -d --build $(SERVICES)
 
 down:
 	@echo "Stopping containers..."
@@ -50,7 +50,11 @@ clean:
 
 logs:
 	@echo "Displaying logs..."
-	docker-compose -f $(DOCKER_COMPOSE) logs
+	docker-compose -f $(DOCKER_COMPOSE) logs $(SERVICES)
+
+logs-follow:
+	@echo "Following logs..."
+	docker-compose -f $(DOCKER_COMPOSE) logs -f $(SERVICES)
 
 ps:
 	@echo "Showing container status..."

@@ -14,4 +14,7 @@ WORKDIR	/var/www/html
 
 EXPOSE	8080
 
-CMD	["nginx", "-g", "daemon off;"]
+COPY	./tools/nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
+RUN		chmod +x /usr/local/bin/nginx-entrypoint.sh
+
+ENTRYPOINT	["nginx-entrypoint.sh"]
