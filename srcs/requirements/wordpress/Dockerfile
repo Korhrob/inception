@@ -26,4 +26,8 @@ EXPOSE	9000
 RUN		mkdir -p /run/php && chown -R www-data:www-data /run/php
 RUN		sed -i 's|^listen =.*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
-CMD	["php-fpm7.4", "-F"]
+COPY	./tools/wp-entrypoint.sh /usr/local/bin/wp-entrypoint.sh
+RUN		chmod +x /usr/local/bin/wp-entrypoint.sh
+
+ENTRYPOINT	["wp-entrypoint.sh"]
+#CMD	["php-fpm7.4", "-F"]
