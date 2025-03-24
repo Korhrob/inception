@@ -6,7 +6,10 @@ DOCKER_COMPOSE	=	srcs/docker-compose.yml
 
 build:
 	@echo "Building Docker images..."
-	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
+	docker-compose -f $(DOCKER_COMPOSE) build
+
+build-force:
+	docker-docker -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
 up:
 	@echo "Starting containers..."
