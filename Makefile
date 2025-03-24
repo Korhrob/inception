@@ -9,7 +9,7 @@ build:
 	docker-compose -f $(DOCKER_COMPOSE) build
 
 build-force:
-	docker-docker -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
+	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
 up:
 	@echo "Starting containers..."
