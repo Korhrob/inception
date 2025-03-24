@@ -27,6 +27,7 @@ re: down
 
 re-wordpress:
 	@echo "Rebuilding Wordpress container..."
+	docker-compose -f $(DOCKER_COMPOSE) build --no-cache wordpress
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build wordpress
 
 

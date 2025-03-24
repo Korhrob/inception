@@ -13,8 +13,5 @@ GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-echo "user: ${MYSQL_USER}"
-echo "db: ${MYSQL_DATABASE}"
-
 echo "Starting MariaDB"
 exec mysqld --user=mysql
