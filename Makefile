@@ -9,6 +9,7 @@ build:
 	docker-compose -f $(DOCKER_COMPOSE) build
 
 force:
+	@echo "Forcing Docker image builds..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
 up:
@@ -28,17 +29,17 @@ re: down
 re-wordpress:
 	@echo "Rebuilding Wordpress container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache wordpress
-	docker-compose -f $(DOCKER_COMPOSE) up -d --build wordpress
-
+	docker-compose -f $(DOCKER_COMPOSE) up -d wordpress
 
 re-mariadb:
 	@echo "Rebuilding MariaDB container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache mariadb
-	docker-compose -f $(DOCKER_COMPOSE) up -d --build mariadb
+	docker-compose -f $(DOCKER_COMPOSE) up -d mariadb
 
 re-nginx:
 	@echo "Rebuildin NGINX container..."
-	docker-compose -f $(DOCKER_COMPOSE) up -d --build nginx
+	docker-compose -f $(DOCKER_COMPOSE) build --no-cache nginx
+	docker-compose -f $(DOCKER_COMPOSE) up -d nginx
 
 prune: down
 	@echo "Pruning docker images..."

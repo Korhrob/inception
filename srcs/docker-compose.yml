@@ -21,7 +21,7 @@ services:
       interval: 5s
       retries: 10
       start_period: 5s
-      timeout: 10s
+      timeout: 5s
 
   wordpress:
     build:  ./requirements/wordpress
@@ -47,7 +47,7 @@ services:
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
     volumes:
-      - wordpress_data:/var/www/html/wordpress
+      - /home/robert/data/wordpress:/var/www/html/wordpress
     ports:
       - "8080:8080"
     networks:
@@ -57,7 +57,17 @@ services:
 
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/robert/data/mariadb
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/robert/data/wordpress
 
 networks:
   frontend:

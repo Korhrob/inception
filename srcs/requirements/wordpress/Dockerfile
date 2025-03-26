@@ -23,6 +23,7 @@ RUN		chown www-data:www-data /var/www/html/wordpress/wp-config.php
 
 EXPOSE	9000
 
+# RUN		export PHP_VERSION=$(php =r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
 RUN		mkdir -p /run/php && chown -R www-data:www-data /run/php
 COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN		chown www-data:www-data /etc/php/7.4/fpm/pool.d/www.conf
