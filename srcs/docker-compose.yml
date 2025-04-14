@@ -39,12 +39,6 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/wp-login.php"]
-      interval: 5s
-      retries: 20
-      start_period: 5s
-      timeout: 5s
 
   nginx:
     build: ./requirements/nginx
@@ -59,8 +53,7 @@ services:
     networks:
       - frontend
     depends_on:
-      wordpress:
-        condition: service_healthy
+      - wordpress
 
 volumes:
   mariadb_data:
