@@ -14,7 +14,7 @@ RUN		mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 RUN		curl -o /tmp/latest.tar.gz https://wordpress.org/latest.tar.gz && \
 		tar -xvzf /tmp/latest.tar.gz -C /var/www/html --owner=www-data --group=www-data && \
-		rm /tmp/latest.tar.gz && \
+		rm /tmp/latest.tar.gz
 
 #RUN		chown -R www-data:www-data /var/www/html/wordpress
 
