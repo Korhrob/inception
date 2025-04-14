@@ -39,4 +39,5 @@ COPY	./tools/wp-entrypoint.sh /usr/local/bin/wp-entrypoint.sh
 RUN		chmod +x /usr/local/bin/wp-entrypoint.sh
 
 WORKDIR	/var/www/html/wordpress
+USER www-data
 ENTRYPOINT	["/usr/local/bin/wp-entrypoint.sh"]

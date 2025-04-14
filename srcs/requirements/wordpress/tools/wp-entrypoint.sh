@@ -6,7 +6,7 @@ set -e
 #     sleep 1
 # done
 
-if ! wp core is-installed --allow-root; then
+if ! wp core is-installed; then
     echo "Installing WordPress..."
 
 	if echo "$WP_ADMIN_USER" | grep -i 'admin'; then
@@ -26,13 +26,11 @@ if ! wp core is-installed --allow-root; then
         --admin_user="$WP_ADMIN_USER" \
         --admin_password="$WP_ADMIN_PASS" \
         --admin_email="$WP_ADMIN_EMAIL" \
-        --skip-email \
-        --allow-root
+        --skip-email
 
     wp user create "$WP_GUEST_USER" "$WP_GUEST_EMAIL" \
         --user_pass="$WP_GUEST_PASS" \
-        --role=editor \
-        --allow-root
+        --role=editor
 else
     echo "WordPress is already installed."
 fi
