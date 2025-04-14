@@ -2,9 +2,9 @@
 
 set -e
 
-until mysqladmin ping -h"$DB_HOST" --silent; do
-    sleep 1
-done
+# until mysqladmin ping -h"$DB_HOST" --silent; do
+#     sleep 1
+# done
 
 if ! wp core is-installed --allow-root; then
     echo "Installing WordPress..."
