@@ -19,7 +19,7 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
-      retries: 10
+      retries: 20
       start_period: 5s
       timeout: 5s
 
@@ -39,6 +39,12 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/wp-login.php"]
+      interval: 5s
+      retries: 20
+      start_period: 5s
+      timeout: 5s
 
   nginx:
     build: ./requirements/nginx
@@ -49,11 +55,12 @@ services:
     volumes:
       - /home/robert/data/wordpress:/var/www/html/wordpress
     ports:
-      - "8080:8080"
+      - "443:443"
     networks:
       - frontend
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
 
 volumes:
   mariadb_data:

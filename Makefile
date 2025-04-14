@@ -1,18 +1,14 @@
 PROJECT_NAME	=	inception
-SERVICES	=	mariadb nginx wordpress
+SERVICES		=	mariadb nginx wordpress
 DOCKER_COMPOSE	=	srcs/docker-compose.yml
 
-.PHONY: build up down restart nginx logs ps
-
-create_dir:
-	@mkdir -p /home/robert/data/mariadb
-	@mkdir -p /home/robert/data/wordpress
+.PHONY: build force up down restart re wordpress mariadb nginx logs logs-follow ps
 
 build: create_dir
 	@echo "Building Docker images..."
-	docker-compose -f $(DOCKER_COMPOSE) build
+	docker-compose -f $(DOCKER_COMPOSE) build $(SERVICES)
 
-force:
+force: down
 	@echo "Forcing Docker image builds..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
@@ -30,28 +26,23 @@ re: down
 	@echo "Stating containers with --build..."
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build $(SERVICES)
 
-re-wordpress:
+wordpress: down
 	@echo "Rebuilding Wordpress container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache wordpress
-	docker-compose -f $(DOCKER_COMPOSE) up -d wordpress
 
-re-mariadb:
+mariadb: down
 	@echo "Rebuilding MariaDB container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache mariadb
-	docker-compose -f $(DOCKER_COMPOSE) up -d mariadb
 
-re-nginx:
+nginx: down
 	@echo "Rebuildin NGINX container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache nginx
-	docker-compose -f $(DOCKER_COMPOSE) up -d nginx
 
-prune: down
-	@echo "Pruning docker images..."
-	docker image prune -f
-
-clean:
+clean: down
 	@echo "Closing and cleaning containers..."
 	docker-compose -f $(DOCKER_COMPOSE) down -v --remove-orphans
+	@echo "Pruning docker images..."
+	docker image prune -f
 
 logs:
 	@echo "Displaying logs..."
@@ -64,3 +55,7 @@ logs-follow:
 ps:
 	@echo "Showing container status..."
 	docker-compose -f $(DOCKER_COMPOSE) ps
+
+create_dir:
+	@mkdir -p /home/robert/data/mariadb
+	@mkdir -p /home/robert/data/wordpress
