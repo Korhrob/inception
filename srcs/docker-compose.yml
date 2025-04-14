@@ -32,6 +32,14 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      WP_TITLE: ${WP_TITLE}
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_GUEST_USER: ${WP_GUEST_USER}
+      WP_GUEST_PASS: ${WP_GUEST_PASS}
+      WP_GUEST_EMAIL: ${WP_GUEST_EMAIL}
     volumes:
       - wordpress_data:/var/www/html/wordpress
     networks:

@@ -18,7 +18,7 @@ RUN		curl -o /tmp/latest.tar.gz https://wordpress.org/latest.tar.gz && \
 
 #RUN		chown -R www-data:www-data /var/www/html/wordpress
 
-COPY	--chown=www-data:www-data ./conf/wp-config.php /var/www/html/wordpress/wp-config.php
+#COPY	--chown=www-data:www-data ./conf/wp-config.php /var/www/html/wordpress/wp-config.php
 #RUN		chown www-data:www-data /var/www/html/wordpress/wp-config.php
 
 EXPOSE	9000

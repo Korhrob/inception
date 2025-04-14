@@ -2,29 +2,35 @@
 
 set -e
 
-until mysqladmin ping -h"$WORDPRESS_DB_HOST" --silent; do
+until mysqladmin ping -h"$DB_HOST" --silent; do
     sleep 1
 done
 
 if ! wp core is-installed --allow-root; then
     echo "Installing WordPress..."
 
-	if echo "$WORDPRESS_ADMIN_USER" | grep -i 'admin'; then
+	if echo "$WP_ADMIN_USER" | grep -i 'admin'; then
 		echo "Error: Admin username cannot contain 'admin' or 'administrator'"
 		exit 1
 	fi
 
+	wp config create \
+		--dbname="$MYSQL_DATABASE" \
+		--dbuser="$MYSQL_USER" \
+		--dbpass="$MYSQL_PASSWORD" \
+		--dbhost="$DB_HOST"
+
     wp core install \
-        --url="$WORDPRESS_URL" \
-        --title="$WORDPRESS_TITLE" \
-        --admin_user="$WORDPRESS_ADMIN_USER" \
-        --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
-        --admin_email="$WORDPRESS_ADMIN_EMAIL" \
+        --url="$DOMAIN_NAME" \
+        --title="$WP_TITLE" \
+        --admin_user="$WP_ADMIN_USER" \
+        --admin_password="$WP_ADMIN_PASS" \
+        --admin_email="$WP_ADMIN_EMAIL" \
         --skip-email \
         --allow-root
 
-    wp user create "$WP_SECOND_USER" "$WP_SECOND_USER_EMAIL" \
-        --user_pass="$WP_SECOND_USER_PASSWORD" \
+    wp user create "$WP_GUEST_USER" "$WP_GUEST_EMAIL" \
+        --user_pass="$WP_GUEST_PASS" \
         --role=editor \
         --allow-root
 else
