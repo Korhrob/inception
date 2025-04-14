@@ -40,7 +40,7 @@ nginx: down
 
 clean: down
 	@echo "Stopping containers and cleaning volumes..."
-	docker-compose -f $(DOCKER_COMPOSE) --rmi all --volumes --remove-orphans
+	docker-compose -f $(DOCKER_COMPOSE) --v --remove-orphans
 
 logs:
 	@echo "Displaying logs..."
