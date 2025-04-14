@@ -4,11 +4,11 @@ DOCKER_COMPOSE	=	srcs/docker-compose.yml
 
 .PHONY: build force up down restart re wordpress mariadb nginx logs logs-follow ps
 
-build: create_dir
+build: create_dir down
 	@echo "Building Docker images..."
 	docker-compose -f $(DOCKER_COMPOSE) build $(SERVICES)
 
-force: down
+force: create_dir down
 	@echo "Forcing Docker image builds..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
