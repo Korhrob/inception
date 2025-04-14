@@ -41,6 +41,8 @@ nginx: down
 clean:
 	@echo "Stopping containers and cleaning volumes..."
 	docker-compose -f $(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
+	@echo "Cleaning up unused Docker images..."
+	docker system prune -a -f
 
 logs:
 	@echo "Displaying logs..."
