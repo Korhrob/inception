@@ -38,9 +38,9 @@ nginx: down
 	@echo "Rebuildin NGINX container..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache nginx
 
-clean: down
+clean:
 	@echo "Stopping containers and cleaning volumes..."
-	docker-compose -f $(DOCKER_COMPOSE) --v --remove-orphans
+	docker-compose -f $(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 
 logs:
 	@echo "Displaying logs..."
