@@ -40,9 +40,9 @@ nginx: down
 
 clean: down
 	@echo "Closing and cleaning containers..."
-	docker-compose -f $(DOCKER_COMPOSE) down -v --remove-orphans
+	docker-compose -f $(DOCKER_COMPOSE) down --volumes --remove-orphans
 	@echo "Pruning docker images..."
-	docker image prune -f
+	docker system prune -a -f
 
 logs:
 	@echo "Displaying logs..."

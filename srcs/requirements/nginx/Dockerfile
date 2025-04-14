@@ -21,6 +21,10 @@ EXPOSE	443
 COPY	./tools/nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
 RUN		chmod +x /usr/local/bin/nginx-entrypoint.sh
 
-RUN		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/wordpress.key -out /etc/ssl/certs/wordpress.crt
+RUN 	openssl req -x509 -nodes -days 365 \
+		-newkey rsa:2048 \
+		-keyout /etc/ssl/private/wordpress.key \
+		-out /etc/ssl/certs/wordpress.crt \
+		-subj "/C=FI/ST=Uusimaa/L=Helsinki/O=Hive/CN=${DOMAIN_NAME}"
 
 ENTRYPOINT	["nginx-entrypoint.sh"]
