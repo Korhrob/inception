@@ -4,7 +4,11 @@ DOCKER_COMPOSE	=	srcs/docker-compose.yml
 
 .PHONY: build up down restart nginx logs ps
 
-build:
+create_dir:
+	@mkdir -p /home/robert/data/mariadb
+	@mkdir -p /home/robert/data/wordpress
+
+build: create_dir
 	@echo "Building Docker images..."
 	docker-compose -f $(DOCKER_COMPOSE) build
 
