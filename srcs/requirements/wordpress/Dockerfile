@@ -23,7 +23,6 @@ RUN		chown www-data:www-data /var/www/html/wordpress/wp-config.php
 
 EXPOSE	9000
 
-# RUN		export PHP_VERSION=$(php =r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
 RUN		mkdir -p /run/php && chown -R www-data:www-data /run/php
 COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN		chown www-data:www-data /etc/php/7.4/fpm/pool.d/www.conf
@@ -31,12 +30,11 @@ RUN		chown www-data:www-data /etc/php/7.4/fpm/pool.d/www.conf
 COPY	./conf/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
 RUN		chown www-data:www-data /etc/php/7.4/fpm/php-fpm.conf
 
-# Enable error logging and direct it to stderr
 RUN sed -i 's/^;log_errors = Off/log_errors = On/' /etc/php/7.4/fpm/php.ini \
     && sed -i 's|^;error_log = php_errors.log|error_log = /dev/stderr|' /etc/php/7.4/fpm/php.ini
 
 COPY	./tools/wp-entrypoint.sh /usr/local/bin/wp-entrypoint.sh
 RUN		chmod +x /usr/local/bin/wp-entrypoint.sh
 
-WORKDIR	/var/www/html
+WORKDIR	/var/www/html/wordpress
 ENTRYPOINT	["wp-entrypoint.sh"]

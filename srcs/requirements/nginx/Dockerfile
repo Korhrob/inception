@@ -1,6 +1,9 @@
 FROM	debian:bullseye-slim
 
-RUN		apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+RUN		apt-get update && \
+		apt-get install -y nginx && apt-get install -y openssl && \
+		rm -rf /var/lib/apt/lists/*
+
 RUN		rm -rf /etc/nginx/sites-enabled/default
 RUN		rm -rf /var/www/html/index.nginx-debian.html
 
@@ -12,9 +15,11 @@ RUN		chown -R www-data:www-data /etc/nginx
 VOLUME	/var/www/html
 WORKDIR	/var/www/html
 
-EXPOSE	8080
+EXPOSE	443
 
 COPY	./tools/nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
 RUN		chmod +x /usr/local/bin/nginx-entrypoint.sh
+
+RUN		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/wordpress.key -out /etc/ssl/certs/wordpress.crt
 
 ENTRYPOINT	["nginx-entrypoint.sh"]
