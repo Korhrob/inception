@@ -12,13 +12,13 @@ force: create_dir down
 	@echo "Forcing Docker image builds..."
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache $(SERVICES)
 
-up:
+up: down
 	@echo "Starting containers..."
-	docker-compose -f $(DOCKER_COMPOSE) up -d --build $(SERVICES)
+	docker-compose -f $(DOCKER_COMPOSE) up $(SERVICES)
 
 down:
 	@echo "Stopping containers..."
-	docker-compose -f $(DOCKER_COMPOSE) down
+	docker-compose -f $(DOCKER_COMPOSE) down $(SERVICES)
 
 restart: down up
 
@@ -39,10 +39,10 @@ nginx: down
 	docker-compose -f $(DOCKER_COMPOSE) build --no-cache nginx
 
 clean: down
-	@echo "Closing and cleaning containers..."
+	@echo "Stopping containers and cleaning volumes..."
 	docker-compose -f $(DOCKER_COMPOSE) down --volumes --remove-orphans
-	@echo "Pruning docker images..."
-	docker system prune -a -f
+	@echo "Removing specific Docker Compose images..."
+	docker-compose -f $(DOCKER_COMPOSE) down --rmi all
 
 logs:
 	@echo "Displaying logs..."

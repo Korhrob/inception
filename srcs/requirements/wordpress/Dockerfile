@@ -13,6 +13,9 @@ RUN		apt-get update && apt-get install -y \
 RUN		mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 RUN		curl -o /tmp/latest.tar.gz https://wordpress.org/latest.tar.gz && \
+		curl -o https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+		chmod +x wp-cli.phar && \
+		mv wp-cli.phar /usr/local/bin/wp && \
 		tar -xvzf /tmp/latest.tar.gz -C /var/www/html --owner=www-data --group=www-data && \
 		rm /tmp/latest.tar.gz
 
