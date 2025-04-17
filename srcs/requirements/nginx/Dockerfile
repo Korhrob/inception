@@ -13,7 +13,6 @@ COPY	--chown=www-data:www-data ./conf/default.conf /tmp/default.conf
 
 #RUN	chown -R www-data:www-data /etc/nginx
 
-VOLUME	/var/www/html
 WORKDIR	/var/www/html
 
 EXPOSE	443

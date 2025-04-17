@@ -54,6 +54,7 @@ services:
     restart: always
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
+      CERTS_: ${CERTS_}
     volumes:
       - /home/robert/data/wordpress:/var/www/html/wordpress
     ports:
